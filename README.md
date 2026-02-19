@@ -62,7 +62,7 @@ La serigrafía de mi PCB está diseñada para ser intuitiva. Aquí tienes la cor
 
 ## ✂️ Guía de Instalación: Ejemplo Placa IC BD M5 PAL / VA6
 
-⚠️ **IMPORTANTE:** Es **ESTRICTAMENTE NECESARIO** cortar pistas en la placa base original. Si conectas el PIC sin aislar los pines, provocarás un cortocircuito que dañará la consola.
+⚠️ **IMPORTANTE:** Es **ESTRICTAMENTE NECESARIO** cortar pistas en la placa base original. Si conectas el PIC sin aislar los pines, provocarás un cortocircuito que podria dañará la consola o el microcontrolador.
 
 Para ilustrar el proceso, aquí tienes mi propia instalación en una revisión **VA6**:
 
@@ -75,12 +75,10 @@ Debes localizar la pista que une el botón de Reset con el procesador y **cortar
 En la revisión VA6, el idioma y la frecuencia vienen fijados por los jumpers **JP2** y **JP3**. 
 * **Cortar pistas:** Corta la pista de cobre que une los pads de estos jumpers para romper la conexión de fábrica (+5V y GND). Comprueba con un multímetro que están aislados.
 * **Conexión de señales:** Suelda los pads **LANG** y **50/60hz** del mod a los puntos correspondientes de los jumpers que van hacia el chip de video.
-* **Alimentación (Truco):** Puedes aprovechar el otro extremo de los jumpers cortados para alimentar el mod. El lado cortado de JP2 te dará los +5V (suelda a **VCC**) y el lado cortado de JP3 te dará la masa (suelda a **GND**).
+* **Alimentación:** Puedes aprovechar el otro extremo de los jumpers cortados para alimentar el mod. El lado cortado de JP2 te dará los +5V (suelda a **VCC**) y el lado cortado de JP3 te dará la masa (suelda a **GND**).
 
 ![Corte de pistas JP2, JP3 y Reset](images/cortes_placa_va6.jpg)
 ![Instalación finalizada con PCB](images/instalacion_final_va6.jpg)
-
-*(Asegúrate de reemplazar estos nombres de imagen en el código por los nombres reales de las fotos que subas).*
 
 ## 🛠️ Compilación y Programación
 
