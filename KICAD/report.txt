@@ -1,0 +1,11 @@
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-F_Cu.gbr'.
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-B_Cu.gbr'.
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-F_Paste.gbr'.
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-B_Paste.gbr'.
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-F_Silkscreen.gbr'.
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-B_Silkscreen.gbr'.
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-F_Mask.gbr'.
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-B_Mask.gbr'.
+Plotted to 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-Edge_Cuts.gbr'.
+Created Gerber job file 'C:\Users\BDM_PC\Documents\Proyectos PCB\Switchless MOD\SwitchlessMOD\SwitchlessMOD-job.gbrjob'.
+Info: Done.
