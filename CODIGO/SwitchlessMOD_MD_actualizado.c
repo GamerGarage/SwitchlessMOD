@@ -1,3 +1,23 @@
+/*
+ * ----------------------------------------------------------------------------
+ * Sega Mega Drive - PIC16F684 Switchless Region & Reset Mod
+ * ----------------------------------------------------------------------------
+ * Autor:   Javi (GAMER GARAGE)
+ * Web:     https://www.gamergarage.es
+ * Versión: 1.0
+ * * Descripción: 
+ * Firmware para controlar el reinicio y la región (PAL/JAP/USA) de una 
+ * consola Sega Mega Drive/Genesis utilizando el botón de RESET original
+ * y un indicador LED RGB.
+ * * Licencia: MIT (Puedes usar, modificar y distribuir este código libremente, 
+ * siempre y cuando se mantenga la mención al autor original).
+ * ----------------------------------------------------------------------------
+ */
+
+// PIC16F684 Configuration Bit Settings
+#pragma config FOSC = INTOSCIO  // Oscilador interno activado
+// ... (aquí sigue tu código normal)
+
 // PIC16F684 Configuration Bit Settings
 #pragma config FOSC = INTOSCIO  // Oscilador interno activado
 #pragma config WDTE = OFF       // Watchdog Timer desactivado
@@ -175,4 +195,5 @@ void main(void) {
     }
     
     return;
+
 }
