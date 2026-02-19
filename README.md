@@ -13,7 +13,13 @@ Permite controlar el reinicio y cambiar la región (PAL/JAP/USA) de la consola u
 
 ## 🧩 Circuito Impreso (PCB) Personalizado y Gerbers
 
-Para facilitar la instalación y hacerla lo más limpia posible, he diseñado una placa de circuito impreso (PCB) a medida para este mod. 
+Para facilitar la instalación y hacerla lo más limpia posible, he diseñado una placa de circuito impreso (PCB) a medida para este mod.
+
+### Vista de la PCB
+![Vista 3D de la PCB](images/pcb_3d.png)
+
+### Esquemático (KiCad)
+![Esquemático del circuito](images/esquematico.png)
 
 * **Descarga de Gerbers:** Puedes descargar los archivos **Gerber** incluidos en este repositorio para pedir tus propias placas en fabricantes de PCBs como JLCPCB, PCBWay, o el servicio que prefieras.
 * **Instalación de Resistencias:** Si utilizas mi diseño de PCB, recuerda que las resistencias limitadoras para los tres colores del LED RGB deben ir soldadas exactamente en las posiciones marcadas como **R1, R2 y R3** en la serigrafía de la placa.
