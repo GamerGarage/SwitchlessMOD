@@ -22,7 +22,9 @@ Para facilitar la instalación y hacerla lo más limpia posible, he diseñado un
 ![Esquemático del circuito](images/esquematico.png)
 
 * **Descarga de Gerbers:** Puedes descargar los archivos **Gerber** incluidos en este repositorio para pedir tus propias placas en fabricantes de PCBs como JLCPCB, PCBWay, o el servicio que prefieras.
-* **Instalación de Resistencias:** Si utilizas mi diseño de PCB, recuerda que las resistencias limitadoras para los tres colores del LED RGB deben ir soldadas exactamente en las posiciones marcadas como **R1, R2 y R3** en la serigrafía de la placa.
+* **Instalación de Resistencias:** Si utilizas mi diseño de PCB para el mod, recuerda que las resistencias limitadoras para los tres colores del LED RGB deben ir soldadas exactamente en las posiciones marcadas como **R1, R2 y R3** en la serigrafía de la placa.
+* **Uso Multipropósito (Breakout Board):** El diseño de la placa es genérico. El orden de los pads de conexión exteriores respeta exactamente el pinout físico del PIC16F684. Si puenteas (haces un corto con estaño) las posiciones de las resistencias R1, R2 y R3, puedes usar esta PCB como un adaptador genérico para cualquier otro proyecto que utilice este microcontrolador.
+* **Puerto de Programación (ICSP):** La placa incluye pines para un puerto ICSP (In-Circuit Serial Programming). Esto te permite programar y actualizar el firmware del PIC directamente sobre la propia PCB, sin necesidad de extraer el chip.
 
 ## ⚙️ Funcionamiento
 
@@ -42,7 +44,7 @@ El comportamiento del botón (conectado a `RA4`) es el siguiente:
 
 ## 🔌 Esquema de Conexiones (Pinout del PIC)
 
-Si decides hacer la instalación sin mi PCB, asegúrate de cablear el PIC16F684 respetando los siguientes pines:
+Si decides hacer la instalación sin mi PCB (en placa perforada o al aire), asegúrate de cablear el PIC16F684 respetando los siguientes pines:
 
 | Pin Físico PIC | Nombre en Código | Función | Conexión a hardware de la Mega Drive |
 | :---: | :--- | :--- | :--- |
@@ -58,12 +60,14 @@ Si decides hacer la instalación sin mi PCB, asegúrate de cablear el PIC16F684 
 
 *Nota: Los pines del LED asumen un LED RGB de cátodo común.*
 
-## 🛠️ Compilación
+## 🛠️ Compilación y Programación
 
 Este proyecto está escrito en C y preparado para ser compilado con la suite de herramientas de Microchip:
 * **IDE:** MPLAB X IDE
 * **Compilador:** XC8 Compiler
 * **Frecuencia del Oscilador:** 4MHz (Oscilador Interno configurado por `#pragma`)
+
+Para flashear el firmware (`.hex`) en el microcontrolador, he utilizado el programador **PICkit 3**. Gracias al puerto ICSP de la placa, puedes conectar el PICkit 3 directamente alineando el pin 1 (MCLR) y programarlo en segundos.
 
 ## ⚠️ Advertencia
 Modificar hardware original de consolas retro conlleva riesgos. Asegúrate de tener conocimientos de soldadura y revisar bien los puntos de corte y empalme de tu revisión específica de placa base (VA0, VA4, VA6, etc.) antes de proceder. No me hago responsable por daños ocasionados a tu Mega Drive/Genesis.
