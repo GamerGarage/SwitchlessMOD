@@ -71,3 +71,12 @@ Para flashear el firmware (`.hex`) en el microcontrolador, he utilizado el progr
 
 ## ⚠️ Advertencia
 Modificar hardware original de consolas retro conlleva riesgos. Asegúrate de tener conocimientos de soldadura y revisar bien los puntos de corte y empalme de tu revisión específica de placa base (VA0, VA4, VA6, etc.) antes de proceder. No me hago responsable por daños ocasionados a tu Mega Drive/Genesis.
+
+---
+
+## 👨‍💻 Autor y Contacto
+
+Creado por **Javi** de **GAMER GARAGE**. 
+
+Si te ha resultado útil este mod o quieres ver más proyectos de reparación, modificación y electrónica, pásate por mi web:
+🌐 **[www.gamergarage.es](https://www.gamergarage.es)**
