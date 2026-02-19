@@ -6,7 +6,7 @@ Permite controlar el reinicio y cambiar la región (PAL/JAP/USA) de la consola u
 
 ## 🚀 Características
 
-* **Control con un solo botón:** Discrimina entre pulsaciones cortas (reinicio) y pulsaciones largas (cambio de región) usando el botón de RESET original de la Mega Drive.
+* **Control con un solo botón:** Discrimina entre pulsaciones cortas (reinicio) y pulsaciones largas (cambio de región) interceptando el botón de RESET original de la Mega Drive.
 * **Memoria EEPROM:** Guarda la última región seleccionada para que la consola arranque con ella la próxima vez que se encienda.
 * **Indicador LED RGB:** Muestra visualmente la región actual (Rojo = PAL, Verde = JAP, Azul = USA). Sustituye al LED rojo original de la consola.
 * **Antirrebote por software:** Evita falsas pulsaciones y reinicios accidentales.
@@ -21,19 +21,19 @@ Para facilitar la instalación y hacerla lo más limpia posible, he diseñado un
 ### Esquemático (KiCad)
 ![Esquemático del circuito](images/esquematico.png)
 
-* **Descarga de Gerbers:** Puedes descargar los archivos **Gerber** incluidos en este repositorio para pedir tus propias placas en fabricantes de PCBs como JLCPCB, PCBWay, o el servicio que prefieras.
-* **Instalación de Resistencias:** Si utilizas mi diseño de PCB para el mod, recuerda que las resistencias limitadoras para los tres colores del LED RGB deben ir soldadas exactamente en las posiciones marcadas como **R1, R2 y R3** en la serigrafía de la placa.
-* **Uso Multipropósito (Breakout Board):** El diseño de la placa es genérico. El orden de los pads de conexión exteriores respeta exactamente el pinout físico del PIC16F684. Si puenteas (haces un corto con estaño) las posiciones de las resistencias R1, R2 y R3, puedes usar esta PCB como un adaptador genérico para cualquier otro proyecto que utilice este microcontrolador.
-* **Puerto de Programación (ICSP):** La placa incluye pines para un puerto ICSP (In-Circuit Serial Programming). Esto te permite programar y actualizar el firmware del PIC directamente sobre la propia PCB, sin necesidad de extraer el chip.
+* **Descarga de Gerbers:** Puedes descargar los archivos **Gerber** incluidos en este repositorio para pedir tus placas en JLCPCB, PCBWay, etc.
+* **Resistencias LED RGB:** Deben ir soldadas exactamente en las posiciones marcadas como **R1, R2 y R3** en la serigrafía.
+* **Uso Multipropósito (Breakout Board):** El diseño de la placa es genérico. Si puenteas con estaño las posiciones de las resistencias R1, R2 y R3, puedes usar esta PCB como un adaptador genérico para cualquier otro proyecto con el PIC16F684.
+* **Puerto de Programación (ICSP):** La placa incluye pines para programar el PIC directamente sobre la PCB con un PICkit 3.
 
-## ⚙️ Funcionamiento
+## ⚙️ Funcionamiento de la Intercepción del Reset
 
-El comportamiento del botón (conectado a `RA4`) es el siguiente:
+El PIC actúa como un "intermediario" entre el botón físico de la consola y el procesador. 
 
-1.  **Pulsación Corta (menos de 2 segundos):** * Envía una señal de reinicio (LOW) a la consola durante 200ms. Funciona como un botón de reset tradicional.
-2.  **Pulsación Larga (más de 2 segundos):** * Entra en el "Modo de Selección". 
-    * El LED RGB empezará a ciclar entre los tres colores/regiones cada 500 milisegundos.
-    * Para seleccionar una región, simplemente suelta el botón cuando el LED muestre el color deseado. La selección se guarda automáticamente en la EEPROM.
+1.  **Pulsación Corta (menos de 2 segundos):** El PIC detecta la pulsación y transmite una señal de reinicio (LOW) al procesador durante 200ms. Funciona como un reset tradicional.
+2.  **Pulsación Larga (más de 2 segundos):** El PIC **NO** envía la señal de reinicio a la consola. En su lugar, entra en el "Modo de Selección" de región. 
+    * El LED RGB ciclará entre los tres colores cada 500ms.
+    * Al soltar el botón en el color deseado, la selección se guarda en la EEPROM y cambia la región al instante, sin reiniciar el juego.
 
 ### Zonas y Colores
 | Región | Video | Idioma | Color LED RGB |
@@ -42,35 +42,56 @@ El comportamiento del botón (conectado a `RA4`) es el siguiente:
 | **JAP (Japón)** | 60Hz (1) | Japonés (0) | 🟢 Verde |
 | **USA (América)**| 60Hz (1) | Inglés (1) | 🔵 Azul |
 
-## 🔌 Esquema de Conexiones (Pinout del PIC)
+## 🔌 Conexiones de la PCB al Hardware
 
-Si decides hacer la instalación sin mi PCB (en placa perforada o al aire), asegúrate de cablear el PIC16F684 respetando los siguientes pines:
+La serigrafía de mi PCB está diseñada para ser intuitiva. Aquí tienes la correspondencia de los pads con los puntos de soldadura en la consola:
 
-| Pin Físico PIC | Nombre en Código | Función | Conexión a hardware de la Mega Drive |
-| :---: | :--- | :--- | :--- |
-| **3** | `RA4` | `RESET_IN` | Al botón físico de Reset (a GND al pulsar). Pull-up interno habilitado. |
-| **2** | `RA5` | `RESET_OUT` | Al punto de Reset de la placa base. |
-| **10** | `RC0` | `LANGUAGE` | Al jumper/pin de configuración de Idioma. |
-| **11** | `RA2` | `VIDEO` | Al jumper/pin de configuración de Frecuencia (50/60Hz). |
-| **7** | `RC3` | `LED_RED` | Al ánodo del LED Rojo (con su resistencia limitadora). |
-| **6** | `RC4` | `LED_GREEN`| Al ánodo del LED Verde (con su resistencia limitadora). |
-| **5** | `RC5` | `LED_BLUE` | Al ánodo del LED Azul (con su resistencia limitadora). |
-| **1** | `VDD` | Alimentación | +5V de la consola. |
-| **14** | `VSS` | Tierra | GND de la consola. |
+| Pad en la PCB | Pin PIC | Función / Conexión en la Mega Drive |
+| :--- | :---: | :--- |
+| **RESET IN** | `RA4` | Al botón físico de Reset (la parte que va a GND al pulsar). |
+| **RESET OUT** | `RA5` | Al punto de la pista de Reset que va hacia el procesador principal. |
+| **LANG** | `RC0` | Al punto del jumper de configuración de Idioma. |
+| **50/60hz** | `RA2` | Al punto del jumper de configuración de Frecuencia. |
+| **RC3/R** | `RC3` | Al ánodo Rojo del LED RGB (vía resistencia R1). |
+| **RC4/G** | `RC4` | Al ánodo Verde del LED RGB (vía resistencia R2). |
+| **RC5/B** | `RC5` | Al ánodo Azul del LED RGB (vía resistencia R3). |
+| **VCC** | `VDD` | Alimentación de +5V de la consola. |
+| **GND** | `VSS` | Tierra (GND) de la consola. |
 
-*Nota: Los pines del LED asumen un LED RGB de cátodo común.*
+*Nota: El cátodo común del LED RGB se conecta a cualquiera de los pads **GND** extra disponibles en la PCB.*
+
+## ✂️ Guía de Instalación: Ejemplo Placa IC BD M5 PAL / VA6
+
+⚠️ **IMPORTANTE:** Es **ESTRICTAMENTE NECESARIO** cortar pistas en la placa base original. Si conectas el PIC sin aislar los pines, provocarás un cortocircuito que dañará la consola.
+
+Para ilustrar el proceso, aquí tienes mi propia instalación en una revisión **VA6**:
+
+### 1. Intercepción del botón RESET
+Debes localizar la pista que une el botón de Reset con el procesador y **cortarla**. 
+* El lado de la pista que viene del botón físico se suelda al pad **RESET IN** de la PCB.
+* El lado de la pista que va hacia el procesador se suelda al pad **RESET OUT** de la PCB.
+
+### 2. Configuración de Región (Jumpers)
+En la revisión VA6, el idioma y la frecuencia vienen fijados por los jumpers **JP2** y **JP3**. 
+* **Cortar pistas:** Corta la pista de cobre que une los pads de estos jumpers para romper la conexión de fábrica (+5V y GND). Comprueba con un multímetro que están aislados.
+* **Conexión de señales:** Suelda los pads **LANG** y **50/60hz** del mod a los puntos correspondientes de los jumpers que van hacia el chip de video.
+* **Alimentación (Truco):** Puedes aprovechar el otro extremo de los jumpers cortados para alimentar el mod. El lado cortado de JP2 te dará los +5V (suelda a **VCC**) y el lado cortado de JP3 te dará la masa (suelda a **GND**).
+
+![Corte de pistas JP2, JP3 y Reset](images/cortes_placa_va6.jpg)
+![Instalación finalizada con PCB](images/instalacion_final_va6.jpg)
+
+*(Asegúrate de reemplazar estos nombres de imagen en el código por los nombres reales de las fotos que subas).*
 
 ## 🛠️ Compilación y Programación
 
-Este proyecto está escrito en C y preparado para ser compilado con la suite de herramientas de Microchip:
 * **IDE:** MPLAB X IDE
 * **Compilador:** XC8 Compiler
-* **Frecuencia del Oscilador:** 4MHz (Oscilador Interno configurado por `#pragma`)
+* **Frecuencia del Oscilador:** 4MHz (Oscilador Interno)
 
-Para flashear el firmware (`.hex`) en el microcontrolador, he utilizado el programador **PICkit 3**. Gracias al puerto ICSP de la placa, puedes conectar el PICkit 3 directamente alineando el pin 1 (MCLR) y programarlo en segundos.
+Utiliza un programador como el **PICkit 3** conectándolo a los pines ICSP de la PCB para flashear el archivo `.hex`.
 
-## ⚠️ Advertencia
-Modificar hardware original de consolas retro conlleva riesgos. Asegúrate de tener conocimientos de soldadura y revisar bien los puntos de corte y empalme de tu revisión específica de placa base (VA0, VA4, VA6, etc.) antes de proceder. No me hago responsable por daños ocasionados a tu Mega Drive/Genesis.
+## ⚠️ Advertencia Legal y de Hardware
+Modificar hardware original conlleva riesgos. Asegúrate de tener conocimientos de electrónica y revisar bien los puntos de corte de tu revisión específica de placa base (VA0, VA4, VA6, etc.) antes de proceder. El software y los esquemas se proporcionan "tal cual". No me hago responsable por daños ocasionados a tu equipo.
 
 ---
 
@@ -78,5 +99,5 @@ Modificar hardware original de consolas retro conlleva riesgos. Asegúrate de te
 
 Creado por **Javi** de **GAMER GARAGE**. 
 
-Si te ha resultado útil este mod o quieres ver más proyectos de reparación, modificación y electrónica, pásate por mi web:
+Si te ha resultado útil este mod o quieres ver más proyectos de reparación, modificación y electrónica retro, pásate por mi web:
 🌐 **[www.gamergarage.es](https://www.gamergarage.es)**
